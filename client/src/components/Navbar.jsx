@@ -45,7 +45,7 @@ const Navbar = () => {
         <button>
           <Link
             to="/apply-card"
-            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 active:bg-blue-700 transition-colors"
+            className="mt-4 bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 active:bg-purple-700 transition-colors"
             onClick={toggleMenu}
           >
             Apply Card

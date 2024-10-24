@@ -29,16 +29,16 @@ const Features = () => {
   ];
 
   const FeatureCard = ({ title, description, icon }) => {
-    return (
-      <div className="bg-white shadow-md p-6 rounded-lg text-center">
-        <div className="bg-white w-16 h-16 rounded-full mx-auto flex items-center justify-center mb-4 shadow-lg">
-          <div className="text-3xl text-purple-700">{icon}</div>
-        </div>
-        <h3 className="text-lg font-semibold text-gray-800 mb-2">{title}</h3>
-        <p className="text-sm text-gray-500">{description}</p>
+  return (
+    <div className="bg-white shadow-md p-6 rounded-lg text-center">
+      <div className="bg-white w-16 h-16 rounded-full mx-auto flex items-center justify-center mb-4 shadow-lg">
+        <div className="text-3xl text-purple-700">{icon}</div>
       </div>
-    );
-  };
+      <h3 className="text-lg font-semibold text-gray-800 mb-2">{title}</h3>
+      <p className="text-sm text-gray-500">{description}</p>
+    </div>
+  );
+};
 
   return (
     <div className="py-12 bg-gray-50">

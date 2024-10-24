@@ -31,16 +31,26 @@ const steps = [
 
 const Card = ({ step, title, description, icon }) => {
     return (
-        <div className="bg-white shadow-lg p-6 rounded-lg text-center">
-            <div className="text-3xl mb-4 text-purple-700">{icon}</div>
-            <h3 className="text-lg font-semibold mb-2">{title}</h3>
-            <p className="text-sm text-gray-500">{description}</p>
+        <div className="bg-white shadow-lg p-5 h-[230px] rounded-lg flex flex-col justify-between items-center text-center">
+            {/* Icon Section */}
+            <div className="text-3xl text-purple-700 mb-2">
+                {icon}
+            </div>
+            {/* Title and Description Section */}
+            <div>
+                <h3 className="text-lg font-semibold mb-2">{title}</h3>
+                <p className="text-sm text-gray-500">{description}</p>
+            </div>
+            {/* Step Section */}
             <div className="mt-4">
-                <span className="bg-purple-700 text-white py-1 px-3 rounded-full">{step}</span>
+                <span className="bg-purple-700 text-white py-1 px-3 rounded-full text-sm">
+                    {step}
+                </span>
             </div>
         </div>
     );
 };
+
 
 const Process = () => {
     return (
