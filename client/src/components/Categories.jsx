@@ -37,7 +37,7 @@ const Categories = () => {
           <img
             src={cat}
             alt="Credit Cards"
-            className="w-full h-auto"
+            className="w-[400px] h-auto"
           />
         </motion.div>
 
