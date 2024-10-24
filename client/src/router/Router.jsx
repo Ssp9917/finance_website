@@ -3,6 +3,12 @@ import Main from "../layout/Main";
 import { Login, Signup } from "../components";
 import Home from "../pages/Home";
 import About from "../components/About";
+import Service from "../components/Service";
+import User_details from "../components/User_details";
+import AdminMain from "../layout/AdminMain";
+import Dashboard from "../pages/admin/Dashboard";
+import PrivateRoute from "../components/admin/PrivateRoute";
+import AdminLogin from "../components/admin/AdminLogin";
 
 
 
@@ -16,19 +22,44 @@ const router = createBrowserRouter([
         element: <Home />
       },
       {
-        path:'/about',
-        element:<About/>
+        path: '/about',
+        element: <About />
       },
       {
-        path: "/signup",
+        path: '/services',
+        element: <Service />
+      },
+      {
+        path: "/apply-card",
         element: <Signup />
       },
       {
         path: "/login",
         element: <Login />
+      },
+      {
+        path: "/user-details",
+        element: <User_details />
       }
     ]
   },
+  {
+    path: "/admin",
+    element:
+      <PrivateRoute>
+        <AdminMain />
+      </PrivateRoute>,
+    children: [
+      {
+        path: "",
+        element: <Dashboard />
+      },
+    ]
+  },
+  {
+    path: "/admin-login",
+    element: <AdminLogin />
+  }
 ]);
 
 export default router;
