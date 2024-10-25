@@ -1,41 +1,48 @@
 import bcrypt from "bcryptjs";
 import User from "../models/user.model.js";
-import generateTokenAndSetCookie from "../utils/generateToken.js";
+import { generateTokenAndSetCookie } from "../utils/generateToken.js";
 
 export const signup = async (req, res) => {
 	try {
-		const { name, mobailNumber, password, city,monthlyIncome } = req.body;
+		const { name, mobile, password, city, income, terms } = req.body;
 
-
-		const user = await User.findOne({ mobailNumber });
+		// Check if the mobile number already exists
+		const user = await User.findOne({ mobile });
 
 		if (user) {
-			return res.status(400).json({ error: "Mobail Number already exists" });
+			return res.status(400).json({ error: "Mobile Number already exists" });
 		}
 
-		// HASH PASSWORD HERE
+		// Hash the password
 		const salt = await bcrypt.genSalt(10);
 		const hashedPassword = await bcrypt.hash(password, salt);
 
+		// Create a new user instance
 		const newUser = new User({
 			name,
-			mobailNumber,
+			mobile,
 			password: hashedPassword,
 			city,
-			monthlyIncome
+			income,
+			terms,
 		});
 
 		if (newUser) {
-			// Generate JWT token here
-			generateTokenAndSetCookie(newUser._id, res);
+			// Generate JWT token
+			const token = generateTokenAndSetCookie(newUser._id, res); // Adjust if necessary
+
+			// Save the new user to the database
 			await newUser.save();
 
+			// Send user details and token in response
 			res.status(201).json({
 				_id: newUser._id,
 				name: newUser.name,
-				mobailNumber: newUser.mobailNumber,
-				city:newUser.city,
-				monthlyIncome:newUser.monthlyIncome,
+				mobile: newUser.mobile,
+				city: newUser.city,
+				income: newUser.income,
+				terms: newUser.terms,
+				token, // Include the token in the response
 			});
 		} else {
 			res.status(400).json({ error: "Invalid user data" });
@@ -48,22 +55,26 @@ export const signup = async (req, res) => {
 
 export const login = async (req, res) => {
 	try {
-		const { mobailNumber, password } = req.body;
-		const user = await User.findOne({ mobailNumber });
+		const { mobile, password } = req.body;
+		const user = await User.findOne({ mobile });
 		const isPasswordCorrect = await bcrypt.compare(password, user?.password || "");
 
 		if (!user || !isPasswordCorrect) {
 			return res.status(400).json({ error: "Invalid username or password" });
 		}
 
-		generateTokenAndSetCookie(user._id, res);
+		// Generate a token using a function and return the token
+		const token = generateTokenAndSetCookie(user._id); // Assuming this function generates the token
 
+		// Send user details along with the token
 		res.status(200).json({
 			_id: user._id,
 			name: user.name,
-			mobailNumber: user.mobailNumber,
+			mobile: user.mobile,
 			city: user.city,
-			monthlyIncome:user.monthlyIncome
+			income: user.income,
+			terms: user.terms,
+			token: token, // Include token in the response
 		});
 	} catch (error) {
 		console.log("Error in login controller", error.message);

@@ -6,12 +6,12 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		mobailNumber: {
+		mobile: {
 			type: String,
 			required: true,
 			unique: true,
 		},
-		monthlyIncome:{
+		income:{
 			type:String,
 			required:true,
 		},
@@ -24,6 +24,10 @@ const userSchema = new mongoose.Schema(
 			required: true,
 			minlength: 6,
 		},
+		terms:{
+			type:Boolean,
+			required:true
+		}
 		// gender: {
 		// 	type: String,
 		// 	required: true,

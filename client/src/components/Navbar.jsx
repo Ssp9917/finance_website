@@ -1,28 +1,42 @@
-import React, { useState } from 'react';
-import { FaWallet } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-import appex_logo from '../assets/apex_logo.png'
+import React, { useContext, useState } from 'react';
+import { FaWallet, FaUser } from 'react-icons/fa'; // Importing user icon
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
+import appex_logo from '../assets/apex_logo.png';
+import { UserAuthContext } from '../context/UserAuthProvider';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate(); // Hook for navigation
 
   // Array of objects for menu items
   const menuItems = [
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
     { name: 'Services', path: '/services' },
-    { name: "Login", path: '/login' }
   ];
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
+  // Retrieve user data from local storage
+  const { user,setUser } = useContext(UserAuthContext)
+  const userName = user ? user.name : '';
+
+  // Logout function
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setUser(null)
+    navigate('/login'); 
+  };
+
   return (
     <nav className="bg-gray-800 text-white px-4 py-3">
       <div className="container mx-auto flex items-center justify-between">
         {/* Logo */}
-        <div className="text-2xl font-bold"><img src={appex_logo} width={90} alt="" /></div>
+        <div className="text-2xl font-bold">
+          <img src={appex_logo} width={90} alt="" />
+        </div>
 
         {/* Menu Items (Desktop) */}
         <div className="hidden md:flex space-x-6">
@@ -35,22 +49,40 @@ const Navbar = () => {
               {item.name}
             </Link>
           ))}
+          {/* User Display or Login */}
+          {userName ? (
+            <div className="flex items-center space-x-2">
+              <FaUser />
+              <span>{userName}</span>
+            </div>
+          ) : (
+            <Link to="/login" className="hover:text-gray-400 active:text-gray-300">
+              Login
+            </Link>
+          )}
           <div className="flex items-center space-x-1">
             <FaWallet />
             <span>0</span>
           </div>
         </div>
 
-        {/* Apply Card Button (Mobile) */}
-        <button>
+        {/* Apply Card Button and Logout Button (Mobile) */}
+        <div className="hidden md:flex items-center space-x-4">
           <Link
             to="/apply-card"
             className="mt-4 bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 active:bg-purple-700 transition-colors"
-            onClick={toggleMenu}
           >
             Apply Card
           </Link>
-        </button>
+          {userName && (
+            <button
+              onClick={handleLogout}
+              className="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 active:bg-red-700 transition-colors"
+            >
+              Logout
+            </button>
+          )}
+        </div>
 
         {/* Hamburger Icon (Mobile) */}
         <div className="md:hidden">
@@ -60,7 +92,6 @@ const Navbar = () => {
             <span className={`block w-6 h-0.5 bg-white transition-transform ${isOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
           </button>
         </div>
-
       </div>
 
       {/* Mobile Menu */}
@@ -76,14 +107,32 @@ const Navbar = () => {
               {item.name}
             </Link>
           ))}
+          {/* User Display or Login */}
+          {userName ? (
+            <div className="flex items-center space-x-2">
+              <FaUser />
+              <span>{userName}</span>
+            </div>
+          ) : (
+            <Link to="/login" className="hover:text-gray-400 active:text-gray-300" onClick={toggleMenu}>
+              Login
+            </Link>
+          )}
           <div className="flex items-center space-x-1">
             <FaWallet />
             <span>0</span>
           </div>
+          {/* Logout Button in Mobile Menu */}
+          {userName && (
+            <button
+              onClick={handleLogout}
+              className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 active:bg-red-700 transition-colors"
+            >
+              Logout
+            </button>
+          )}
         </div>
       </div>
-
-
     </nav>
   );
 };

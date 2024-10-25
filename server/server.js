@@ -10,7 +10,12 @@ connectDb()
 
 
 // middleware
-app.use(cors());
+
+app.use(cors({
+  origin: 'http://localhost:5173', // Allow requests from any origin
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 app.use(express.json());
 
 

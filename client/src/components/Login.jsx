@@ -1,7 +1,44 @@
-import React from 'react'
-import Process from './Process'
+import React, { useContext, useState } from 'react';
+import Process from './Process';
+import { UserAuthContext } from '../context/UserAuthProvider';
 
 const Login = () => {
+  const [mobile, setMobile] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const { login, setUser } = useContext(UserAuthContext);
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+
+    // Reset error message
+    setError('');
+
+    // Validate inputs
+    if (!mobile || !password) {
+      setError('Please fill in all fields.'); // Set error if any field is empty
+      return; // Exit the function
+    }
+
+    setLoading(true); // Set loading to true
+
+    try {
+      // Make an API call
+      const response = await login({ mobile, password });
+      console.log(response);
+      setUser(response);
+      localStorage.setItem('user', JSON.stringify(response));
+    } catch (error) {
+      setError('Login failed. Please check your credentials.');
+      console.error('Login Error:', error);
+    } finally {
+      setLoading(false); // Reset loading status
+    }
+  };
+
   return (
     <>
       <div className="bg-gray-100 flex items-center justify-center p-6">
@@ -21,7 +58,8 @@ const Login = () => {
             <h3 className="text-2xl font-semibold text-gray-800 mb-6">
               Login for an Apex Card Credit Card
             </h3>
-            <form className="space-y-4">
+            {error && <p className="text-red-500 mb-4">{error}</p>} {/* Display error message */}
+            <form className="space-y-4" onSubmit={handleSubmit}>
               <div>
                 <label htmlFor="mobile" className="block text-sm font-medium text-gray-700">
                   Mobile Number
@@ -29,6 +67,8 @@ const Login = () => {
                 <input
                   id="mobile"
                   type="text"
+                  value={mobile}
+                  onChange={(e) => setMobile(e.target.value)} // Update state on change
                   className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   placeholder="Enter your mobile number"
                 />
@@ -40,15 +80,18 @@ const Login = () => {
                 <input
                   id="password"
                   type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)} // Update state on change
                   className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   placeholder="Enter your password"
                 />
               </div>
               <button
                 type="submit"
-                className="w-full py-3 bg-purple-700 text-white font-semibold rounded-lg shadow-md hover:bg-purple-800 transition duration-300"
+                className={`w-full py-3 ${loading ? 'bg-gray-400' : 'bg-purple-700'} text-white font-semibold rounded-lg shadow-md hover:bg-purple-800 transition duration-300`}
+                disabled={loading} // Disable button while loading
               >
-                LOGIN
+                {loading ? 'Logging in...' : 'LOGIN'} {/* Change button text based on loading state */}
               </button>
               <div className="text-right">
                 <a href="#" className="text-purple-600 hover:underline text-sm font-medium">
@@ -60,10 +103,9 @@ const Login = () => {
         </div>
       </div>
 
-
       <Process />
     </>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
