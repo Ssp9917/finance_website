@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import Process from './Process';
 import { UserAuthContext } from '../context/UserAuthProvider';
 import swal from 'sweetalert'
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -16,6 +17,8 @@ const Signup = () => {
   const {signup,setUser} = useContext(UserAuthContext)
 
   const [errors, setErrors] = useState({});
+
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     const { id, value, type, checked } = e.target;
@@ -50,6 +53,7 @@ const Signup = () => {
       const response = await signup(formData);
       console.log(response);
       setUser(response);
+      navigate('/user-details')
 
       // Show success message
       swal({

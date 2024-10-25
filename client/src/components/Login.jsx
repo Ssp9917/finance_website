@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import Process from './Process';
 import { UserAuthContext } from '../context/UserAuthProvider';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [mobile, setMobile] = useState('');
@@ -9,6 +10,9 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
 
   const { login, setUser } = useContext(UserAuthContext);
+
+
+  const navigate = useNavigate();
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -31,6 +35,15 @@ const Login = () => {
       console.log(response);
       setUser(response);
       localStorage.setItem('user', JSON.stringify(response));
+      navigate('/');
+      swal({
+        title: "Login Successfully!",
+        text: "Login successfully.",
+        icon: "success",
+        buttons: false,
+        timer: 2000,
+      });
+
     } catch (error) {
       setError('Login failed. Please check your credentials.');
       console.error('Login Error:', error);

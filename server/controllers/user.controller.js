@@ -57,14 +57,14 @@ export const login = async (req, res) => {
 	try {
 		const { mobile, password } = req.body;
 		const user = await User.findOne({ mobile });
-		const isPasswordCorrect = await bcrypt.compare(password, user?.password || "");
+		const isPasswordCorrect = await bcrypt.compare(password, user?.password || '');
 
 		if (!user || !isPasswordCorrect) {
-			return res.status(400).json({ error: "Invalid username or password" });
+			return res.status(400).json({ error: 'Invalid username or password' });
 		}
 
-		// Generate a token using a function and return the token
-		const token = generateTokenAndSetCookie(user._id); // Assuming this function generates the token
+		// Generate a token using the function and set it as a cookie
+		const token = generateTokenAndSetCookie(user._id, res);
 
 		// Send user details along with the token
 		res.status(200).json({
@@ -74,11 +74,11 @@ export const login = async (req, res) => {
 			city: user.city,
 			income: user.income,
 			terms: user.terms,
-			token: token, // Include token in the response
+			token, // Include token in the response
 		});
 	} catch (error) {
-		console.log("Error in login controller", error.message);
-		res.status(500).json({ error: "Internal Server Error" });
+		console.log('Error in login controller', error.message);
+		res.status(500).json({ error: 'Internal Server Error' });
 	}
 };
 

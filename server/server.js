@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import connectDb from './db/connectToMongoDb.js'
 import userRoutes from './routes/user.router.js'
+import applyUserRoutes from './routes/applyCardUser.router.js'
 const app = express();
 const port = process.env.PORT || 6001;
 
@@ -17,12 +18,15 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 app.use(express.json());
+app.use("/uploads", express.static("uploads"));
+
 
 
 
 
 //   import routes here
-app.use('/user',userRoutes)
+app.use('/user',userRoutes);
+app.use('/apply-user',applyUserRoutes)
 
 
 app.get("/", (req, res) => {
