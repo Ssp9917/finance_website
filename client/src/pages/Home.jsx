@@ -17,7 +17,7 @@ const Home = () => {
       <Categories />
       <PopularCards />
       <Countdown />
-      <Offers />
+      {/* <Offers /> */}
       <Services />
       <Features />
       <Faq />
