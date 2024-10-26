@@ -80,6 +80,10 @@ const applyCardUserSchema = new mongoose.Schema({
       { stepName: 'Third Step', status: 'deactive' },
     ],
   },
+  wallet:{
+    type:String,
+    default:0
+  },
   createdAt: {
     type: Date,
     default: Date.now,

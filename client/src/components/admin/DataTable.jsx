@@ -5,14 +5,14 @@ import {
   usePagination,
   useGlobalFilter,
 } from "react-table";
-import axios from "axios";
+import axios from "../../config/axiosConfig";
 import { useNavigate } from "react-router-dom";
 
 const DataTable = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchInput, setSearchInput] = useState("");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,43 +32,43 @@ const DataTable = () => {
   }, []);
 
   // Function to handle step click
-  const handleStepClick = (id, step) => {
-    setData((prevData) =>
-      prevData.map((item) => {
-        if (item._id === id) {
-          if (step === 1) {
-            // Toggle step 1
-            return {
-              ...item,
-              step1: item.step1 === "active" ? "deactive" : "active",
-            };
-          } else if (step === 2 && item.step1 === "active") {
-            // Toggle step 2 only if step 1 is active
-            return {
-              ...item,
-              step2: item.step2 === "active" ? "deactive" : "active",
-            };
-          } else if (step === 3 && item.step2 === "active") {
-            // Toggle step 3 only if step 2 is active
-            return {
-              ...item,
-              step3: item.step3 === "active" ? "deactive" : "active",
-            };
-          }
-        }
-        return item;
-      })
-    );
+  const handleStepClick = async (id, step) => {
+    const updatedItem = data.find((item) => item._id === id);
+
+    if (updatedItem) {
+      // Clone the current process to avoid mutating state directly
+      const updatedProcess = [...updatedItem.process];
+
+      // Set the current step to "active"
+      updatedProcess[step - 1].status = "active";
+
+      // Optionally deactivate previous steps if necessary
+      for (let i = 0; i < step - 1; i++) {
+        updatedProcess[i].status = "active"; // Ensure all previous steps are active
+      }
+
+      try {
+        // Call the API to update the process with the new status
+        await axios.put(`/apply-user/update-user/${id}`, {
+          process: updatedProcess,
+        });
+        console.log("Process updated successfully");
+
+        // Update local state to reflect changes immediately
+        setData((prevData) =>
+          prevData.map((item) =>
+            item._id === id ? { ...item, process: updatedProcess } : item
+          )
+        );
+      } catch (error) {
+        console.error("Error updating process:", error);
+      }
+    }
   };
 
   const handleView = (user) => {
-    console.log(user)
-    navigate(`/admin/profile/${user._id}/`)
-  }
-
-  // Determine if the second and third columns should be shown
-  const isStep2Visible = data.some((item) => item.step1 === "active");
-  const isStep3Visible = data.some((item) => item.step2 === "active");
+    navigate(`/admin/profile/${user._id}/`);
+  };
 
   const columns = [
     {
@@ -98,64 +98,51 @@ const DataTable = () => {
     },
     {
       Header: "Step 1",
-      accessor: "step1",
       Cell: ({ row }) => (
         <button
           onClick={() => handleStepClick(row.original._id, 1)}
           className={`px-3 py-1 rounded ${
-            row.original.step1 === "active"
+            row.original.process[0].status === "active"
               ? "bg-green-500 text-white"
               : "bg-gray-300"
           }`}
         >
-          {row.original.step1 || "deactive"}
+          {row.original.process[0].status || "deactive"}
         </button>
       ),
     },
-    // Conditionally render Step 2 column
-    ...(isStep2Visible
-      ? [
-          {
-            Header: "Step 2",
-            accessor: "step2",
-            Cell: ({ row }) => (
-              <button
-                onClick={() => handleStepClick(row.original._id, 2)}
-                className={`px-3 py-1 rounded ${
-                  row.original.step1 === "active" && row.original.step2 === "active"
-                    ? "bg-green-500 text-white"
-                    : "bg-gray-300"
-                }`}
-                disabled={row.original.step1 !== "active"}
-              >
-                {row.original.step2 || "deactive"}
-              </button>
-            ),
-          },
-        ]
-      : []),
-    // Conditionally render Step 3 column
-    ...(isStep3Visible
-      ? [
-          {
-            Header: "Step 3",
-            accessor: "step3",
-            Cell: ({ row }) => (
-              <button
-                onClick={() => handleStepClick(row.original._id, 3)}
-                className={`px-3 py-1 rounded ${
-                  row.original.step2 === "active" && row.original.step3 === "active"
-                    ? "bg-green-500 text-white"
-                    : "bg-gray-300"
-                }`}
-                disabled={row.original.step2 !== "active"}
-              >
-                {row.original.step3 || "deactive"}
-              </button>
-            ),
-          },
-        ]
-      : []),
+    {
+      Header: "Step 2",
+      Cell: ({ row }) => (
+        <button
+          onClick={() => handleStepClick(row.original._id, 2)}
+          className={`px-3 py-1 rounded ${
+            row.original.process[1].status === "active"
+              ? "bg-green-500 text-white"
+              : "bg-gray-300"
+          }`}
+          disabled={row.original.process[0].status !== "active"}
+        >
+          {row.original.process[1].status || "deactive"}
+        </button>
+      ),
+    },
+    {
+      Header: "Step 3",
+      Cell: ({ row }) => (
+        <button
+          onClick={() => handleStepClick(row.original._id, 3)}
+          className={`px-3 py-1 rounded ${
+            row.original.process[2].status === "active"
+              ? "bg-green-500 text-white"
+              : "bg-gray-300"
+          }`}
+          disabled={row.original.process[1].status !== "active"}
+        >
+          {row.original.process[2].status || "deactive"}
+        </button>
+      ),
+    },
     {
       Header: "Actions",
       Cell: ({ row }) => (
@@ -166,18 +153,12 @@ const DataTable = () => {
           >
             View
           </button>
-          <button
-            onClick={() => handleDelete(row.original._id)}
-            className="bg-red-500 text-white px-3 py-1 rounded"
-          >
-            Delete
-          </button>
         </div>
       ),
     },
   ];
 
-  const tableColumns = useMemo(() => columns, [isStep2Visible, isStep3Visible]);
+  const tableColumns = useMemo(() => columns, [data]);
   const tableData = useMemo(() => data, [data]);
 
   const {
@@ -290,7 +271,7 @@ const DataTable = () => {
           <button
             onClick={() => previousPage()}
             disabled={!canPreviousPage}
-            className="p-2 border rounded mr-2"
+            className="mr-2 p-2 border rounded"
           >
             Previous
           </button>

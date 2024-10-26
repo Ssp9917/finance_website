@@ -37,7 +37,7 @@ const FAQ = () => {
         </div>
 
         {/* Right: FAQ Section */}
-        <div className="w-[400px]">
+        <div className="w-[350px]">
           {faqs.map((faq, index) => (
             <div key={index} className="mb-4">
               <button
