@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import DataTable from "../../components/admin/DataTable";
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
-  )
-}
+    <>
+      <DataTable />
+    </>
+  );
+};
 
-export default Dashboard
+export default Dashboard;

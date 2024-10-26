@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
-import { FaWallet, FaUser } from 'react-icons/fa'; // Importing user icon
-import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
-import appex_logo from '../assets/apex_logo.png';
-import { UserAuthContext } from '../context/UserAuthProvider';
+import React, { useContext, useState } from "react";
+import { FaWallet, FaUser } from "react-icons/fa"; // Importing user icon
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate for redirection
+import appex_logo from "../assets/apex_logo.png";
+import { UserAuthContext } from "../context/UserAuthProvider";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,9 +10,9 @@ const Navbar = () => {
 
   // Array of objects for menu items
   const menuItems = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Services', path: '/services' },
+    { name: "Home", path: "/" },
+    { name: "About", path: "/about" },
+    { name: "Services", path: "/services" },
   ];
 
   const toggleMenu = () => {
@@ -20,14 +20,14 @@ const Navbar = () => {
   };
 
   // Retrieve user data from local storage
-  const { user,setUser } = useContext(UserAuthContext)
-  const userName = user ? user.name : '';
+  const { user, setUser } = useContext(UserAuthContext);
+  const userName = user ? user.name : "";
 
   // Logout function
   const handleLogout = () => {
-    localStorage.removeItem('user');
-    setUser(null)
-    navigate('/login'); 
+    localStorage.removeItem("user");
+    setUser(null);
+    navigate("/");
   };
 
   return (
@@ -51,12 +51,15 @@ const Navbar = () => {
           ))}
           {/* User Display or Login */}
           {userName ? (
-            <div className="flex items-center space-x-2">
+            <Link to='/profile' className="flex items-center space-x-2">
               <FaUser />
               <span>{userName}</span>
-            </div>
+            </Link>
           ) : (
-            <Link to="/login" className="hover:text-gray-400 active:text-gray-300">
+            <Link
+              to="/login"
+              className="hover:text-gray-400 active:text-gray-300"
+            >
               Login
             </Link>
           )}
@@ -69,7 +72,7 @@ const Navbar = () => {
         {/* Apply Card Button and Logout Button (Mobile) */}
         <div className="hidden md:flex items-center space-x-4">
           <Link
-            to="/apply-card"
+            to={user ? "/user-details" : "/apply-card"}
             className="mt-4 bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 active:bg-purple-700 transition-colors"
           >
             Apply Card
@@ -87,15 +90,31 @@ const Navbar = () => {
         {/* Hamburger Icon (Mobile) */}
         <div className="md:hidden">
           <button onClick={toggleMenu} className="focus:outline-none">
-            <span className={`block w-6 h-0.5 bg-white mb-1 transition-transform ${isOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
-            <span className={`block w-6 h-0.5 bg-white mb-1 transition-opacity ${isOpen ? 'opacity-0' : 'opacity-100'}`}></span>
-            <span className={`block w-6 h-0.5 bg-white transition-transform ${isOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+            <span
+              className={`block w-6 h-0.5 bg-white mb-1 transition-transform ${
+                isOpen ? "rotate-45 translate-y-2" : ""
+              }`}
+            ></span>
+            <span
+              className={`block w-6 h-0.5 bg-white mb-1 transition-opacity ${
+                isOpen ? "opacity-0" : "opacity-100"
+              }`}
+            ></span>
+            <span
+              className={`block w-6 h-0.5 bg-white transition-transform ${
+                isOpen ? "-rotate-45 -translate-y-2" : ""
+              }`}
+            ></span>
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
-      <div className={`md:hidden fixed top-[76px] left-0 h-full w-1/2 bg-gray-800 transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <div
+        className={`md:hidden fixed top-[76px] left-0 h-full w-1/2 bg-gray-800 transform transition-transform duration-300 ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
         <div className="flex flex-col p-4 space-y-4">
           {menuItems.map((item, index) => (
             <Link
@@ -108,16 +127,14 @@ const Navbar = () => {
             </Link>
           ))}
           {/* User Display or Login */}
-          {userName ? (
-            <div className="flex items-center space-x-2">
-              <FaUser />
-              <span>{userName}</span>
-            </div>
-          ) : (
-            <Link to="/login" className="hover:text-gray-400 active:text-gray-300" onClick={toggleMenu}>
-              Login
-            </Link>
-          )}
+          <Link
+            to="/profile"
+            className="cursor-pointer flex items-center space-x-2"
+            onClick={toggleMenu}
+          >
+            <FaUser />
+            <div className="hover:underline">{userName}</div>
+          </Link>
           <div className="flex items-center space-x-1">
             <FaWallet />
             <span>0</span>

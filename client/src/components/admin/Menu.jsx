@@ -7,7 +7,7 @@ const menuItems = [
     items: [
       {
         label: "Users",
-        href: "/",
+        href: "/admin",
         icon:<FaHouseUser/>
       },
     ],

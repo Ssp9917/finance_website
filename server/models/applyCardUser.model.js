@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const applyCardUserSchema = new mongoose.Schema({
-  user: {
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User', // Reference to the logged-in user
     required: true,
@@ -66,6 +66,19 @@ const applyCardUserSchema = new mongoose.Schema({
   pancardImage: {
     type: String,
     required: true,
+  },
+  process: {
+    type: [
+      {
+        stepName: { type: String, required: true }, // Name of the step
+        status: { type: String, enum: ['active', 'deactive'], default: 'deactive' }, // Status of the step
+      },
+    ],
+    default: [
+      { stepName: 'First Step', status: 'deactive' },
+      { stepName: 'Second Step', status: 'deactive' },
+      { stepName: 'Third Step', status: 'deactive' },
+    ],
   },
   createdAt: {
     type: Date,

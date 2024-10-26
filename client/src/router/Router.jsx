@@ -9,6 +9,8 @@ import AdminMain from "../layout/AdminMain";
 import Dashboard from "../pages/admin/Dashboard";
 import PrivateRoute from "../components/admin/PrivateRoute";
 import AdminLogin from "../components/admin/AdminLogin";
+import Profile from "../pages/Profile";
+import SingleUserProfile from "../components/admin/SingleUserProfile";
 
 
 
@@ -40,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: "/user-details",
         element: <User_details />
+      },
+      {
+        path:'/profile',
+        element:<Profile/>
       }
     ]
   },
@@ -54,6 +60,10 @@ const router = createBrowserRouter([
         path: "",
         element: <Dashboard />
       },
+      {
+        path:"profile/:id",
+        element:<SingleUserProfile/>
+      }
     ]
   },
   {

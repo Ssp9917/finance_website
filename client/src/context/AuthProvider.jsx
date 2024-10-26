@@ -7,14 +7,25 @@ export const AuthContext = createContext();
 
 // AuthProvider component
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const [token,setToken] = useState('')
+  const [admin, setAdmin] = useState(null);
+  const [loading, setLoading] = useState(true); // Set loading to true initially
+  const [token, setToken] = useState('');
 
-  // console.log(token)
+  // Check if user is already logged in
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("admin"));
+    console.log(storedUser);
+    
+    if (storedUser) {
+      setAdmin(storedUser); // Set admin state from localStorage
+      setToken(storedUser.token || ''); // Set token if available in the stored user
+    }
+    
+    setLoading(false); // Set loading to false after checking localStorage
+  }, []);
 
-  // signup with credential
-   const signup = async (data) => {
+  // Sign up with credentials
+  const signup = async (data) => {
     try {
       const response = await axios.post('/auth/signup', data);
       return response.data;
@@ -24,46 +35,43 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-
-  // login with credential
+  // Log in with credentials
   const login = async (data) => {
-    console.log(data)
+    console.log(data);
     try {
-      const response = await axios.post('/auth/login',data);
-      return response.data;
+      const response = await axios.post('/admin/admin-login', data);
+      const loggedInUser = response.data;
+
+      // Set admin and token after successful login
+      setAdmin(loggedInUser);
+      setToken(loggedInUser.token || '');
+      
+      return loggedInUser;
     } catch (error) {
       console.error('Login error:', error);
       throw error;
     }
-  }
-
-  // Logout function
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem("user");
   };
 
-  // Check if user is already logged in
-  useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    if (storedUser) {
-      setUser(storedUser);
-    }
-    setLoading(false);
-  }, []);
+  // Logout function
+  // const logout = () => {
+  //   setAdmin(null);
+  //   setToken(''); // Clear the token on logout
+  //   localStorage.removeItem("admin");
+  // };
 
   // Save user data to localStorage
   useEffect(() => {
-    if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
+    if (admin) {
+      localStorage.setItem("admin", JSON.stringify(admin));
     } else {
-      localStorage.removeItem("user");
+      localStorage.removeItem("admin");
     }
-  }, [user]);
+  }, [admin]);
 
   return (
     <AuthContext.Provider
-      value={{ user,loading,setUser, logout,signup,login,setToken,token}}
+      value={{ loading, admin, setAdmin, setLoading, signup, login, setToken, token }}
     >
       {children}
     </AuthContext.Provider>

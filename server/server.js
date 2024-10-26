@@ -3,6 +3,7 @@ import cors from 'cors'
 import connectDb from './db/connectToMongoDb.js'
 import userRoutes from './routes/user.router.js'
 import applyUserRoutes from './routes/applyCardUser.router.js'
+import adminRoutes from './routes/admin.router.js'
 const app = express();
 const port = process.env.PORT || 6001;
 
@@ -26,7 +27,8 @@ app.use("/uploads", express.static("uploads"));
 
 //   import routes here
 app.use('/user',userRoutes);
-app.use('/apply-user',applyUserRoutes)
+app.use('/apply-user',applyUserRoutes);
+app.use('/admin',adminRoutes)
 
 
 app.get("/", (req, res) => {
