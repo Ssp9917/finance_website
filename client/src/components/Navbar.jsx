@@ -31,7 +31,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gray-800 text-white px-4 py-3">
+    <nav className="bg-gray-800 md:static fixed w-full z-[9999] text-white px-4 py-3">
       <div className="container mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="text-2xl font-bold">
@@ -51,7 +51,7 @@ const Navbar = () => {
           ))}
           {/* User Display or Login */}
           {userName ? (
-            <Link to='/profile' className="flex items-center space-x-2">
+            <Link to="/profile" className="flex items-center space-x-2">
               <FaUser />
               <span>{userName}</span>
             </Link>
@@ -70,7 +70,7 @@ const Navbar = () => {
         </div>
 
         {/* Apply Card Button and Logout Button (Mobile) */}
-        <div className="hidden md:flex items-center space-x-4">
+        <div className="hidden z-[9999] md:flex items-center space-x-4">
           <Link
             to={user ? "/user-details" : "/apply-card"}
             className="mt-4 bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 active:bg-purple-700 transition-colors"
@@ -111,7 +111,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       <div
-        className={`md:hidden fixed top-[76px] left-0 h-full w-1/2 bg-gray-800 transform transition-transform duration-300 ${
+        className={`md:hidden z-[9999] fixed top-[76px] left-0 h-full w-1/2 bg-gray-800 transform transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -127,27 +127,43 @@ const Navbar = () => {
             </Link>
           ))}
           {/* User Display or Login */}
-          <Link
-            to="/profile"
-            className="cursor-pointer flex items-center space-x-2"
-            onClick={toggleMenu}
-          >
-            <FaUser />
-            <div className="hover:underline">{userName}</div>
-          </Link>
+          {userName ? (
+            <Link to="/profile"  onClick={toggleMenu} className="flex items-center space-x-2">
+              <FaUser />
+              <span>{userName}</span>
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              className="hover:text-gray-400 active:text-gray-300"
+              onClick={toggleMenu}
+            >
+              Login
+            </Link>
+          )}
           <div className="flex items-center space-x-1">
             <FaWallet />
             <span>0</span>
           </div>
           {/* Logout Button in Mobile Menu */}
-          {userName && (
-            <button
-              onClick={handleLogout}
-              className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 active:bg-red-700 transition-colors"
+          <div className=" z-[9999] md:flex items-center space-x-4">
+            <Link
+              to={user ? "/user-details" : "/apply-card"}
+              onClick={toggleMenu}
+              className="mt-4 bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 active:bg-purple-700 transition-colors"
             >
-              Logout
-            </button>
-          )}
+              Apply Card
+            </Link>
+            {userName && (
+              <button
+                onClick={handleLogout}
+                onClick={toggleMenu}
+                className="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 active:bg-red-700 transition-colors"
+              >
+                Logout
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </nav>

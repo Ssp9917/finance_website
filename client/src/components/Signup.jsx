@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import Process from './Process';
 import { UserAuthContext } from '../context/UserAuthProvider';
-import swal from 'sweetalert'
+import swal from 'sweetalert';
 import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
@@ -14,11 +14,11 @@ const Signup = () => {
     terms: false,
   });
 
-  const {signup,setUser} = useContext(UserAuthContext)
+  const { signup, setUser } = useContext(UserAuthContext);
 
   const [errors, setErrors] = useState({});
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { id, value, type, checked } = e.target;
@@ -46,25 +46,18 @@ const Signup = () => {
     setErrors(formErrors);
 
     if (Object.keys(formErrors).length === 0) {
-      // Perform the form submission
-      console.log('Form data submitted:', formData);
-      // Make an API call here to submit the form data
-
       const response = await signup(formData);
-      console.log(response);
       setUser(response);
-      navigate('/user-details')
+      navigate('/user-details');
 
-      // Show success message
       swal({
-        title: "Account Created!",
-        text: "Your account has been created successfully.",
-        icon: "success",
+        title: 'Account Created!',
+        text: 'Your account has been created successfully.',
+        icon: 'success',
         buttons: false,
         timer: 2000,
       });
 
-      // Optionally reset the form after submission
       setFormData({
         name: '',
         mobile: '',
@@ -78,23 +71,23 @@ const Signup = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden flex items-center">
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4 sm:p-6">
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row items-center w-full max-w-4xl">
           {/* Left side with text */}
-          <div className="w-1/2 p-8">
-            <h2 className="text-4xl font-extrabold text-gray-800 mb-4">
+          <div className="w-full md:w-1/2 p-8">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-800 mb-4">
               Our Apex Credit Cards are like no other:
             </h2>
-            <h3 className="text-2xl text-yellow-500 font-bold mb-4">
+            <h3 className="text-xl sm:text-2xl text-yellow-500 font-bold mb-4">
               Let’s find a Card best suited for you!
             </h3>
-            <p className="text-lg text-gray-600 mb-6">
+            <p className="text-base sm:text-lg text-gray-600 mb-6">
               Presenting Apex Credit Card range of credit cards which offer a host of exclusive benefits and a best-in-class rewards program. Choose a credit card to suit your lifestyle from an exclusive range of credit cards. Apply online for your credit card today.
             </p>
           </div>
 
           {/* Right side with form */}
-          <div className="w-1/2 bg-gray-50 p-10 rounded-r-xl shadow-md">
+          <div className="w-full md:w-1/2 bg-gray-50 p-6 sm:p-10 rounded-r-xl shadow-md">
             <h3 className="text-2xl font-semibold text-gray-800 mb-6">
               Apply for an Apex Credit Card
             </h3>
