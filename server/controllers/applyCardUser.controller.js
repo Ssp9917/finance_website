@@ -31,6 +31,24 @@ export const viewSingleUser = async (req, res) => {
   }
 };
 
+export const viewSingleUserDetails = async (req, res) => {
+  try {
+    const { id } = req.params;
+    // Find the ApplyCardUser document where userId matches the given id
+    const user = await ApplyCardUser.findById(id).populate(
+      "userId",
+      "name mobile"
+    );
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Error fetching user:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 // Delete a user
 export const deleteUser = async (req, res) => {
   try {
@@ -51,10 +69,19 @@ export const editUser = async (req, res) => {
   const { process } = req.body;
 
   try {
-    // Find the user by ID and update the process steps
+    // Check if the first step's status is "active"
+    let walletUpdate = {};
+    if (process[0] && process[0].status === "active") {
+      walletUpdate = { wallet: 11000 };
+    }
+
+    // Find the user by ID and update the process steps and wallet if needed
     const updatedUser = await ApplyCardUser.findByIdAndUpdate(
       id,
-      { process },
+      { 
+        process,
+        ...walletUpdate
+      },
       { new: true }
     );
 
@@ -70,6 +97,7 @@ export const editUser = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 export const createUser = async (req, res) => {
   try {

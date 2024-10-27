@@ -10,6 +10,17 @@ const UserAuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState('');
+  const [applyCardUser,setApplyCardUser] = useState([])
+
+  const getApplyCardUser = () => {
+    axios.get(`/apply-user/getAllUser/${user?._id}`).then(
+      (response)=>{
+        setApplyCardUser(response.data)
+      }
+    ).catch((err)=>{
+      console.log(err)
+    })
+  }
 
   // console.log(token)
   useEffect(() => {
@@ -20,8 +31,11 @@ const UserAuthProvider = ({ children }) => {
     }
   }, []);
 
+
+
   // Save user data to localStorage
   useEffect(() => {
+    getApplyCardUser()
     if (user) {
       localStorage.setItem("user", JSON.stringify(user));
     } else {
@@ -59,12 +73,14 @@ const UserAuthProvider = ({ children }) => {
     localStorage.removeItem("user");
   };
 
+
+
   // Check if user is already logged in
 
 
   return (
     <UserAuthContext.Provider
-      value={{ user, loading, setUser, logout, signup, login, setToken, token }}
+      value={{ user, loading, setUser, logout, signup, login, setToken, token,applyCardUser }}
     >
       {children}
     </UserAuthContext.Provider>

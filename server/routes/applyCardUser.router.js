@@ -5,7 +5,8 @@ import {
   viewSingleUser,
   editUser,
   deleteUser,
-  createUser, // Import the createUser controller
+  createUser,
+  viewSingleUserDetails, // Import the createUser controller
 } from "../controllers/applyCardUser.controller.js";
 
 const router = express.Router();
@@ -18,6 +19,7 @@ router.post("/create-user", upload.fields([
 ]), createUser) // Create a new user
 router.get("/getAllUser", getAllUsers); // Get all users
 router.get("/getAllUser/:id", viewSingleUser); // View a single user
+router.get("/getAllUserDetails/:id", viewSingleUserDetails); // View a single user
 router.put("/update-user/:id", editUser); // Edit a user
 router.delete("/delete-user/:id", deleteUser); // Delete a user
 

@@ -8,26 +8,28 @@ import {
 import axios from "../../config/axiosConfig";
 import { useNavigate } from "react-router-dom";
 
+import Swal from "sweetalert2";
+
 const DataTable = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchInput, setSearchInput] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:6001/apply-user/getAllUser"
-        );
-        setData(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:6001/apply-user/getAllUser"
+      );
+      setData(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -68,6 +70,45 @@ const DataTable = () => {
 
   const handleView = (user) => {
     navigate(`/admin/profile/${user._id}/`);
+  };
+
+  const handleDelete = async (id) => {
+    // Confirm deletion with SweetAlert2
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to delete this user?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        axios
+          .delete(`/apply-user/delete-user/${id}`)
+          .then((response) => {
+            fetchData()
+            Swal.fire({
+              title: "Deleted!",
+              text: "User deleted successfully.",
+              icon: "success",
+              confirmButtonText: "OK",
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } catch (error) {
+        console.error("Failed to delete user:", error);
+        Swal.fire({
+          title: "Error!",
+          text: "Failed to delete the user.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
+    }
   };
 
   const columns = [
@@ -152,6 +193,12 @@ const DataTable = () => {
             className="bg-green-500 text-white px-3 py-1 rounded"
           >
             View
+          </button>
+          <button
+            onClick={() => handleDelete(row.original._id)}
+            className="bg-red-500 text-white px-3 py-1 rounded"
+          >
+            Delete
           </button>
         </div>
       ),

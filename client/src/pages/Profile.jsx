@@ -5,32 +5,11 @@ import {UserAuthContext} from '../context/UserAuthProvider'
 
 const Profile = () => {
 
-  const [applyCardUser,setApplyCardUser] = useState([])
+  const {user,applyCardUser} = useContext(UserAuthContext);
 
-  const {user} = useContext(UserAuthContext);
-  // console.log(user._id)
-
-  // console.log(user)
-  
-  const getApplyCardUser = () => {
-    axios.get(`/apply-user/getAllUser/${user?._id}`).then(
-      (response)=>{
-        console.log(response)
-      }
-    ).catch((err)=>{
-      console.log(err)
-    })
-  }
-
-
-  useEffect(
-    ()=>{
-      getApplyCardUser()
-    },[user]
-  )
 
   return (
-    <FirstStep/>
+    <FirstStep />
   )
 }
 

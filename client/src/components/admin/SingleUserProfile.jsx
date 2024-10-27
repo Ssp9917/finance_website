@@ -13,7 +13,7 @@ const SingleUserProfile = () => {
     // Function to fetch user details
     const getSingleUserDetail = async () => {
         try {
-            const response = await axios.get(`/apply-user/getAllUser/${id}`);
+            const response = await axios.get(`/apply-user/getAllUserDetails/${id}`);
             setUser(response.data); // Assuming response.data contains the user object
         } catch (error) {
             console.error('Error fetching user details:', error);

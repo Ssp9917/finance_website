@@ -20,7 +20,7 @@ const Navbar = () => {
   };
 
   // Retrieve user data from local storage
-  const { user, setUser } = useContext(UserAuthContext);
+  const { user, setUser,applyCardUser } = useContext(UserAuthContext);
   const userName = user ? user.name : "";
 
   // Logout function
@@ -65,22 +65,25 @@ const Navbar = () => {
           )}
           <div className="flex items-center space-x-1">
             <FaWallet />
-            <span>0</span>
+            {
+              user != null ?    <span>{applyCardUser?.wallet}</span> :   <span>0</span>
+            }
+           
           </div>
         </div>
 
         {/* Apply Card Button and Logout Button (Mobile) */}
-        <div className="hidden z-[9999] md:flex items-center space-x-4">
+        <div className="hidden z-[9999] md:flex items-center h-full space-x-4">
           <Link
             to={user ? "/user-details" : "/apply-card"}
-            className="mt-4 bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 active:bg-purple-700 transition-colors"
+            className=" bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 active:bg-purple-700 transition-colors"
           >
             Apply Card
           </Link>
           {userName && (
             <button
               onClick={handleLogout}
-              className="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 active:bg-red-700 transition-colors"
+              className=" bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 active:bg-red-700 transition-colors"
             >
               Logout
             </button>
@@ -156,8 +159,8 @@ const Navbar = () => {
             </Link>
             {userName && (
               <button
-                onClick={handleLogout}
-                onClick={toggleMenu}
+                onClick={()=>{handleLogout,toggleMenu}}
+               
                 className="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 active:bg-red-700 transition-colors"
               >
                 Logout

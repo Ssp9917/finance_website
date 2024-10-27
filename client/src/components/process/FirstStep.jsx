@@ -1,16 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import cardImage from "../../assets/creditCard.png";
 import qrCodeImage from "../../assets/QrCode.jpeg";
+import { UserAuthContext } from "../../context/UserAuthProvider";
 const FirstStep = () => {
+  const { user, applyCardUser } = useContext(UserAuthContext);
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-500 p-4">
       <div className=" w-full bg-white rounded-xl shadow-xl p-6 space-y-6">
         <div className="flex flex-wrap gap-5 md:gap-0 md:justify-between justify-center items-center">
-          <img
-            src={cardImage}
-            alt="Credit Card"
-            className="w-full max-w-xs rounded-md shadow-md"
-          />
+          <div className="relative">
+            <img
+              src={cardImage}
+              alt="Credit Card"
+              className="w-full max-w-xs rounded-md shadow-md"
+            />
+            <div className="absolute bottom-5 left-10 text-white">{applyCardUser?.userId?.name}</div>
+          </div>
+
           <div className="text-center">
             <h2 className="text-2xl font-semibold text-gray-800 mb-2">
               Congratulations
