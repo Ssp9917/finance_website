@@ -1,3 +1,164 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+.outer {
+  padding: 15px 25px;
+  background: white;
+  color: black;
+}
+/* customBounce */
+@keyframes customBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px); /* Adjust this value for the bounce height */
+  }
+}
+
+.custom-bounce {
+  animation: customBounce 5s infinite;
+}
+.card-bg {
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.543), rgba(0, 0, 0, 0.502)),
+    url(./assets/casebg.webp) no-repeat center;
+  position: relative;
+}
+.double {
+  border: double white 5px;
+  padding: 25px 35px;
+}
+
+/* categorties */
+.category-card {
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s ease;
+}
+
+.category-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #590039;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s ease;
+  z-index: -1;
+  border-radius: inherit;
+}
+
+.category-card:hover::before {
+  transform: scaleX(1);
+}
+
+.category-card:hover {
+  color: white; /* Text color changes to match the background */
+}
+
+/* navBar */
+.navBar {
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s ease;
+}
+.navBar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s ease;
+  z-index: -1;
+  border-radius: inherit;
+}
+.navBar:hover::before {
+  transform: scaleX(1);
+}
+.navBar:hover {
+  color: #590039;
+}
+/* .apply-btn navbar button  */
+.apply-btn {
+  position: relative;
+  z-index: 1;
+  overflow: hidden; 
+  color: #212529; 
+  transition: color 0.3s ease;
+}
+
+.apply-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #590039;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.5s ease;
+  z-index: 1; 
+  border-radius: inherit;
+}
+
+.apply-btn:hover::before {
+  transform: scaleX(1); 
+}
+
+.apply-btn:hover {
+  color: white; 
+}
+.feature-card {
+  position: relative;
+  z-index: 1;
+  overflow: hidden; 
+  transition: color 0.3s ease;
+}
+
+  .feature-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: linear-gradient(#242464af, #242464af), url("./assets/fea.jpg");
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 0.5s ease;
+      z-index: -1; 
+      border-radius: inherit;
+  }
+
+.feature-card:hover::before {
+  transform: scaleX(1); 
+}
+
+.feature-card:hover p{
+  color: white; 
+}
+.feature-card:hover h3{
+  color: white; 
+}

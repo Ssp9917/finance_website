@@ -52,8 +52,8 @@ const Login = () => {
 
   return (
     <>
-      <div className="bg-gray-100 flex items-center justify-center p-4 sm:p-6 md:p-8 min-h-screen">
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col lg:flex-row items-center max-w-4xl w-full">
+      <div className="bg-gray-100 flex items-center justify-center p-4 sm:p-6 md:p-6 ">
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col lg:flex-row items-center w-full max-w-6xl">
           {/* Left side with text */}
           <div className="w-full lg:w-1/2 p-6 sm:p-8">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-800 mb-4">

@@ -33,7 +33,7 @@ const FAQ = () => {
       <div className="flex flex-col md:flex-row items-center justify-center gap-8">
         {/* Left: Image */}
         <div className="flex-1 max-w-md">
-          <img src={faqImage} alt="FAQ Illustration" className="w-full h-auto" />
+          <img src={faqImage} alt="FAQ Illustration" className="w-full h-auto custom-bounce" />
         </div>
 
         {/* Right: FAQ Section */}

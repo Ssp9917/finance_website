@@ -1,41 +1,38 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import cat from '../assets/cat.png';
+import React from "react";
+import { motion } from "framer-motion";
+import cat from "../assets/cat.png";
 
 const Categories = () => {
   const categories = [
-    { name: 'Best Credit Cards', icon: '💳' },
-    { name: 'Rewards', icon: '🎁' },
-    { name: 'Travel', icon: '✈️' },
-    { name: 'Fuel', icon: '⛽' },
-    { name: 'Cash Back', icon: '💰', highlight: true },
-    { name: 'No Annual Fee', icon: '₹' },
+    { name: "Best Credit Cards", icon: <i className="fa-solid fa-credit-card"></i> },
+    { name: "Rewards", icon: <i className="fa-solid fa-gift"></i> },
+    { name: "Travel", icon: <i className="fa-solid fa-plane"></i> },
+    { name: "Fuel", icon: <i className="fa-solid fa-gas-pump"></i> },
+    { name: "Cash Back", icon: <i className="fa-solid fa-money-bill"></i> },
+    { name: "No Annual Fee", icon: <i className="fa-solid fa-indian-rupee-sign"></i> },
   ];
 
   return (
-    <div className="container mx-auto p-4 sm:p-8">
-      <h1 className="text-2xl sm:text-3xl font-bold text-center mb-4">
+    <div className="container mx-auto p-8 mt-20">
+      <h1 className="text-[45px] text-[#212529] text-center mb-4">
         Top Credit Card Categories
       </h1>
-      <p className="text-center text-gray-600 mb-8">
+      <p className="text-center text-[17px] text-gray-600 font-light mb-8">
         As a leading credit card comparison website, we’ve partnered with all
-        major credit card issuers in India. Select one of them below to get
-        started now.
+        major credit
+        <br /> card issuers in India. Select one of them below to get started
+        now.
       </p>
 
-      <div className="flex flex-col-reverse lg:flex-row justify-between items-center lg:space-x-8">
+      <div className="flex justify-around items-center">
         {/* Credit Card Image */}
         <motion.div
           initial={{ x: -100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1 }}
-          className="w-full lg:w-1/2 mt-8 lg:mt-0"
+          className=" "
         >
-          <img
-            src={cat}
-            alt="Credit Cards"
-            className="mx-auto w-[250px] sm:w-[350px] lg:w-[400px] h-auto"
-          />
+          <img src={cat} alt="Credit Cards" className="w-[400px] h-auto" />
         </motion.div>
 
         {/* Categories */}
@@ -43,16 +40,15 @@ const Categories = () => {
           initial={{ x: 100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1 }}
-          className="w-full lg:w-1/2 grid grid-cols-2 sm:grid-cols-3 gap-4"
+          className="w-[600px] grid grid-cols-2 gap-10"
         >
           {categories.map((category, index) => (
             <div
               key={index}
-              className={`p-4 sm:p-6 shadow-lg rounded-lg text-center ${category.highlight ? 'bg-purple-700 text-white' : 'bg-white'
-                } hover:scale-105 transform transition-all duration-300`}
+              className="category-card py-8 shadow-2xl rounded-lg text-center relative overflow-hidden bg-white text-[#590039]"
             >
-              <span className="text-3xl sm:text-4xl mb-2 block">{category.icon}</span>
-              <h2 className="text-sm sm:text-lg font-bold">{category.name}</h2>
+              <div className="text-4xl mb-2">{category.icon}</div>
+              <h2 className="text-2xl">{category.name}</h2>
             </div>
           ))}
         </motion.div>

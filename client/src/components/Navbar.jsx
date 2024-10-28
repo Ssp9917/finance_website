@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { FaWallet, FaUser } from "react-icons/fa"; // Importing user icon
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate for redirection
+import { Link, NavLink, useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 import appex_logo from "../assets/apex_logo.png";
 import { UserAuthContext } from "../context/UserAuthProvider";
 
@@ -20,8 +20,10 @@ const Navbar = () => {
   };
 
   // Retrieve user data from local storage
-  const { user, setUser,applyCardUser } = useContext(UserAuthContext);
+  const { user, setUser, applyCardUser } = useContext(UserAuthContext);
   const userName = user ? user.name : "";
+
+  console.log(applyCardUser)
 
   // Logout function
   const handleLogout = () => {
@@ -41,34 +43,39 @@ const Navbar = () => {
         {/* Menu Items (Desktop) */}
         <div className="hidden md:flex space-x-6">
           {menuItems.map((item, index) => (
-            <Link
+            <NavLink
               key={index}
               to={item.path}
-              className="hover:text-gray-400 active:text-gray-300"
+              className={({ isActive }) =>
+                `navBar p-4 mx-1 ${isActive ? "text-[#590039] bg-white" : ""}`
+              }
             >
               {item.name}
-            </Link>
+            </NavLink>
           ))}
           {/* User Display or Login */}
           {userName ? (
-            <Link to="/profile" className="flex items-center space-x-2">
+            <NavLink to="/profile" className="flex items-center space-x-2">
               <FaUser />
               <span>{userName}</span>
-            </Link>
+            </NavLink>
           ) : (
-            <Link
+            <NavLink
               to="/login"
-              className="hover:text-gray-400 active:text-gray-300"
+              className={({ isActive }) =>
+                `navBar p-4 mx-1 ${isActive ? "text-[#590039] bg-white" : ""}`
+              }
             >
               Login
-            </Link>
+            </NavLink>
           )}
           <div className="flex items-center space-x-1">
             <FaWallet />
-            {
-              user != null ?    <span>{applyCardUser?.wallet}</span> :   <span>0</span>
-            }
-           
+            {user != null ? (
+              <span>{applyCardUser?.wallet}</span>
+            ) : (
+              <span className="text-white">0</span>
+            )}
           </div>
         </div>
 
@@ -76,16 +83,36 @@ const Navbar = () => {
         <div className="hidden z-[9999] md:flex items-center h-full space-x-4">
           <Link
             to={user ? "/user-details" : "/apply-card"}
-            className=" bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 active:bg-purple-700 transition-colors"
+            className="apply-btn relative  px-5 py-3 text-[#212529] bg-white transition-colors overflow-hidden group"
           >
-            Apply Card
+            <span className="absolute inset-0 bg-[#590039] scale-x-0 transition-transform duration-500 ease-in-out group-hover:scale-x-100 origin-center rounded-lg -z-10"></span>{" "}
+            {/* Background effect */}
+            <span className="absolute inset-0 bg-[#590039] scale-x-0 transition-transform duration-500 ease-in-out group-hover:scale-x-100 origin-center rounded-lg -z-10"></span>{" "}
+            {/* Background effect */}
+            <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
+              Apply Card
+            </span>{" "}
+            {/* Text with color change */}
           </Link>
           {userName && (
+            // <button
+            //   onClick={handleLogout}
+            //   className=" bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 active:bg-red-700 transition-colors"
+            // >
+            //   Logout
+            // </button>
             <button
               onClick={handleLogout}
-              className=" bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 active:bg-red-700 transition-colors"
+              className="apply-btn relative  px-5 py-3 text-[#212529] bg-white transition-colors overflow-hidden group"
             >
-              Logout
+              <span className="absolute inset-0 bg-[#590039] scale-x-0 transition-transform duration-500 ease-in-out group-hover:scale-x-100 origin-center rounded-lg -z-10"></span>{" "}
+              {/* Background effect */}
+              <span className="absolute inset-0 bg-[#590039] scale-x-0 transition-transform duration-500 ease-in-out group-hover:scale-x-100 origin-center rounded-lg -z-10"></span>{" "}
+              {/* Background effect */}
+              <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
+                Logout
+              </span>{" "}
+              {/* Text with color change */}
             </button>
           )}
         </div>
@@ -131,7 +158,11 @@ const Navbar = () => {
           ))}
           {/* User Display or Login */}
           {userName ? (
-            <Link to="/profile"  onClick={toggleMenu} className="flex items-center space-x-2">
+            <Link
+              to="/profile"
+              onClick={toggleMenu}
+              className="flex items-center space-x-2"
+            >
               <FaUser />
               <span>{userName}</span>
             </Link>
@@ -159,8 +190,9 @@ const Navbar = () => {
             </Link>
             {userName && (
               <button
-                onClick={()=>{handleLogout,toggleMenu}}
-               
+                onClick={() => {
+                  handleLogout, toggleMenu;
+                }}
                 className="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 active:bg-red-700 transition-colors"
               >
                 Logout

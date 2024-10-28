@@ -72,7 +72,7 @@ const Signup = () => {
   return (
     <>
       <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4 sm:p-6">
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row items-center w-full max-w-4xl">
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row items-center w-full ">
           {/* Left side with text */}
           <div className="w-full md:w-1/2 p-8">
             <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-800 mb-4">

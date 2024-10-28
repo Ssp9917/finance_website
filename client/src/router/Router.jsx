@@ -3,7 +3,7 @@ import Main from "../layout/Main";
 import { Login, Signup } from "../components";
 import Home from "../pages/Home";
 import About from "../components/About";
-import Service from "../components/Service";
+import Service from "../components/Services";
 import User_details from "../components/User_details";
 import AdminMain from "../layout/AdminMain";
 import Dashboard from "../pages/admin/Dashboard";
