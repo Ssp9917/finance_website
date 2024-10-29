@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "../config/axiosConfig";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { UserAuthContext } from "../context/UserAuthProvider";
 
 const User_details = () => {
   const navigate = useNavigate();
+
+  const {getApplyCardUser} = useContext(UserAuthContext)
 
   const [formData, setFormData] = useState({
     fatherName: "",
@@ -100,8 +103,10 @@ const User_details = () => {
       });
       if (response.status === 201) {
         Swal.fire("Success", "User created successfully!", "success");
+        getApplyCardUser()
         navigate("/profile");
       } else {
+        console.log(response)
         Swal.fire("Error", response.error);
       }
     } catch (error) {

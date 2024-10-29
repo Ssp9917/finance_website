@@ -3,7 +3,7 @@ import cardImage from "../../assets/creditCard.png";
 import qrCodeImage from "../../assets/QrCode.jpeg";
 import { UserAuthContext } from "../../context/UserAuthProvider";
 
-const FirstStep = () => {
+const InsuranceStep = () => {
   const { user, applyCardUser, getApplyCardUser } = useContext(UserAuthContext);
   const [showQrModal, setShowQrModal] = useState(false);
 
@@ -39,7 +39,7 @@ const FirstStep = () => {
               Congratulations
             </h2>
             <p className="text-lg text-gray-700">
-              Your Credit Card Limit <br />
+              Your Credit Card is activated <br />
               <span className="text-3xl font-bold text-green-600">
                 110000 INR
               </span>
@@ -55,22 +55,22 @@ const FirstStep = () => {
         </div>
 
         <p className="text-gray-600 text-justify">
-          Welcome to Apex Card credit card family, India's leading NBFC finance
-          company with more than 2 lakh happy customers across India. Your
-          credit card limit is 110000 with a return period of 60 days and low
-          interest rates. For activation, please make a one-time card processing
-          and delivery charge of 999 INR. You can use your virtual card after
-          paying these charges, and your physical card will be delivered within
-          3-5 working days. Please pay the activation charges via the company’s
-          QR code shown below.
+          Hello sir for using your card limit please make your credit card
+          insurance for 2650 INR QR code shown below down and enjoy your limit.
+          T&C - If your insurance amount is not done in 6 hours of card
+          activation your card will be in pending mode.
         </p>
 
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-gray-800">Benefits Of Card</h3>
+          <h3 className="text-lg font-semibold text-gray-800">
+            Benefits Of Card
+          </h3>
           <ul className="list-disc list-inside text-gray-700 space-y-2">
             <li>Get 2 instant 2000 INR shopping vouchers</li>
             <li>Get 2 instant 1000 INR shopping vouchers</li>
-            <li>2.5% fuel discount cashback on HP petrol pumps all over India</li>
+            <li>
+              2.5% fuel discount cashback on HP petrol pumps all over India
+            </li>
             <li>2.5% annual fees and lifetime free</li>
             <li>110000 cash withdrawal limit</li>
           </ul>
@@ -87,14 +87,17 @@ const FirstStep = () => {
             >
               &times;
             </button>
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">Card Activation</h3>
-            <p className="text-gray-700 mb-4">Please pay the activation charge of 999 INR.</p>
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">
+              Card Activation
+            </h3>
+            <p className="text-gray-700 mb-4">
+              Please pay the activation charge of 2650 INR.
+            </p>
             <img
               src={qrCodeImage}
               alt="QR Code"
               className="w-32 h-32 mx-auto border border-gray-300 rounded-md shadow-md mb-4"
             />
-          
           </div>
         </div>
       )}
@@ -102,4 +105,4 @@ const FirstStep = () => {
   );
 };
 
-export default FirstStep;
+export default InsuranceStep;

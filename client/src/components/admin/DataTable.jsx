@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import {
   useTable,
   useSortBy,
@@ -9,12 +9,15 @@ import axios from "../../config/axiosConfig";
 import { useNavigate } from "react-router-dom";
 
 import Swal from "sweetalert2";
+import { UserAuthContext } from "../../context/UserAuthProvider";
 
 const DataTable = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchInput, setSearchInput] = useState("");
   const navigate = useNavigate();
+
+  const {getApplyCardUser} = useContext(UserAuthContext)
 
   const fetchData = async () => {
     try {
@@ -54,7 +57,8 @@ const DataTable = () => {
         await axios.put(`/apply-user/update-user/${id}`, {
           process: updatedProcess,
         });
-        console.log("Process updated successfully");
+        Swal.fire("Success", "User process updated successfully!", "success");
+        getApplyCardUser()
 
         // Update local state to reflect changes immediately
         setData((prevData) =>

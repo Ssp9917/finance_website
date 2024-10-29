@@ -14,11 +14,6 @@ const menuItems = [
         icon:<FaHouseUser/>
       },
       {
-        label:"Qr Codes",
-        href: "/admin/qrcodes",
-        icon:<IoQrCodeSharp/>
-      },
-      {
         label:"Details",
         href:"/admin/details",
         icon:<TbListDetails/>

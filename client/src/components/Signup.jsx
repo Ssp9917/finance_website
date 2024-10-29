@@ -3,6 +3,7 @@ import Process from './Process';
 import { UserAuthContext } from '../context/UserAuthProvider';
 import swal from 'sweetalert';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -41,32 +42,39 @@ const Signup = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formErrors = validateForm();
-    setErrors(formErrors);
 
-    if (Object.keys(formErrors).length === 0) {
-      const response = await signup(formData);
-      setUser(response);
-      navigate('/user-details');
+    try {
+      e.preventDefault();
+      const formErrors = validateForm();
+      setErrors(formErrors);
 
-      swal({
-        title: 'Account Created!',
-        text: 'Your account has been created successfully.',
-        icon: 'success',
-        buttons: false,
-        timer: 2000,
-      });
-
-      setFormData({
-        name: '',
-        mobile: '',
-        income: '',
-        city: '',
-        password: '',
-        terms: false,
-      });
+      if (Object.keys(formErrors).length === 0) {
+        const response = await signup(formData);
+        setUser(response);
+        navigate('/user-details');
+  
+        swal({
+          title: 'Account Created!',
+          text: 'Your account has been created successfully.',
+          icon: 'success',
+          buttons: false,
+          timer: 2000,
+        });
+  
+        setFormData({
+          name: '',
+          mobile: '',
+          income: '',
+          city: '',
+          password: '',
+          terms: false,
+        });
+      }
+    } catch (error) {
+      Swal.fire("Error", error.response.data.error);
     }
+
+    
   };
 
   return (

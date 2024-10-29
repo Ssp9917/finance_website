@@ -1,8 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaWallet, FaUser } from "react-icons/fa"; // Importing user icon
 import { Link, NavLink, useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 import appex_logo from "../assets/apex_logo.png";
 import { UserAuthContext } from "../context/UserAuthProvider";
+import easternCard from '../assets/1.png'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,15 +21,14 @@ const Navbar = () => {
   };
 
   // Retrieve user data from local storage
-  const { user, setUser, applyCardUser } = useContext(UserAuthContext);
+  const { user, setUser, applyCardUser,setApplyCardUser } = useContext(UserAuthContext);
   const userName = user ? user.name : "";
-
-  console.log(applyCardUser)
 
   // Logout function
   const handleLogout = () => {
     localStorage.removeItem("user");
     setUser(null);
+    setApplyCardUser(null)
     navigate("/");
   };
 
@@ -37,7 +37,7 @@ const Navbar = () => {
       <div className="container mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="text-2xl font-bold">
-          <img src={appex_logo} width={90} alt="" />
+          <img src={easternCard} width={90} alt="" />
         </div>
 
         {/* Menu Items (Desktop) */}
@@ -71,8 +71,8 @@ const Navbar = () => {
           )}
           <div className="flex items-center space-x-1">
             <FaWallet />
-            {user != null ? (
-              <span>{applyCardUser?.wallet}</span>
+            {user && applyCardUser != null ? (
+              <span>{applyCardUser.wallet}</span>
             ) : (
               <span className="text-white">0</span>
             )}
@@ -177,7 +177,7 @@ const Navbar = () => {
           )}
           <div className="flex items-center space-x-1">
             <FaWallet />
-            <span>0</span>
+            {user && applyCardUser != null ? <span>{applyCardUser.wallet}</span> : <span>0</span>}
           </div>
           {/* Logout Button in Mobile Menu */}
           <div className=" z-[9999] md:flex items-center space-x-4">
@@ -191,7 +191,7 @@ const Navbar = () => {
             {userName && (
               <button
                 onClick={() => {
-                  handleLogout, toggleMenu;
+                  handleLogout(), toggleMenu();
                 }}
                 className="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 active:bg-red-700 transition-colors"
               >

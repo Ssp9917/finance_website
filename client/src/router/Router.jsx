@@ -11,6 +11,7 @@ import PrivateRoute from "../components/admin/PrivateRoute";
 import AdminLogin from "../components/admin/AdminLogin";
 import Profile from "../pages/Profile";
 import SingleUserProfile from "../components/admin/SingleUserProfile";
+import AdminDetails from "../components/admin/AdminDetails";
 
 
 
@@ -63,6 +64,10 @@ const router = createBrowserRouter([
       {
         path:"profile/:id",
         element:<SingleUserProfile/>
+      },
+      {
+        path:"details",
+        element:<AdminDetails/>
       }
     ]
   },

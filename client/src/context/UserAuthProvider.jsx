@@ -10,7 +10,7 @@ const UserAuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState('');
-  const [applyCardUser,setApplyCardUser] = useState([])
+  const [applyCardUser,setApplyCardUser] = useState(null)
 
   const getApplyCardUser = () => {
     axios.get(`/apply-user/getAllUser/${user?._id}`).then(
@@ -80,7 +80,7 @@ const UserAuthProvider = ({ children }) => {
 
   return (
     <UserAuthContext.Provider
-      value={{ user, loading, setUser, logout, signup, login, setToken, token,applyCardUser }}
+      value={{ user, loading, setUser, logout, signup, login, setToken, token,applyCardUser,getApplyCardUser,setApplyCardUser }}
     >
       {children}
     </UserAuthContext.Provider>

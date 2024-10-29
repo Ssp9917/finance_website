@@ -24,7 +24,7 @@ const Categories = () => {
         now.
       </p>
 
-      <div className="flex justify-around items-center">
+      <div className="flex justify-around flex-wrap items-center">
         {/* Credit Card Image */}
         <motion.div
           initial={{ x: -100, opacity: 0 }}

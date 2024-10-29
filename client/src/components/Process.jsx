@@ -34,7 +34,7 @@ const steps = [
 
 const Card = ({ step, title, description, icon, list }) => {
     return (
-        <div className="bg-white shadow-lg p-6 flex flex-col justify-between items-center text-center h-full rounded-lg">
+        <div className="bg-white shadow-lg p-3 flex flex-col justify-between items-center text-center h-full rounded-lg">
             {/* Title and Description Section */}
             <div>
                 <p className="text-xl md:text-2xl font-semibold text-[#212529] mb-2">{title}</p>
@@ -58,7 +58,7 @@ const Process = () => {
         <div className="py-10 md:py-12 bg-gray-50">
             <h2 className="text-3xl sm:text-4xl md:text-5xl text-center text-[#212529] font-bold mb-8">How to order a New Card</h2>
             <div className="px-4 max-w-6xl mx-auto">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 lg:gap-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 lg:gap-10">
                     {steps.map((stepData, index) => (
                         <div key={index} className="w-full">
                             <Card {...stepData} />
