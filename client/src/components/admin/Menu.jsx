@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
 import { FaHouseUser } from "react-icons/fa";
+import { IoQrCodeSharp } from "react-icons/io5";
+import { TbListDetails } from "react-icons/tb";
+
 
 const menuItems = [
   {
@@ -10,6 +13,16 @@ const menuItems = [
         href: "/admin",
         icon:<FaHouseUser/>
       },
+      {
+        label:"Qr Codes",
+        href: "/admin/qrcodes",
+        icon:<IoQrCodeSharp/>
+      },
+      {
+        label:"Details",
+        href:"/admin/details",
+        icon:<TbListDetails/>
+      }
     ],
   },
 ];
