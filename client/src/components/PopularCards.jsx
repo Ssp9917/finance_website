@@ -30,14 +30,14 @@ const cardData = [
 
 // Card component
 const Card = ({ card }) => (
-  <div className="bg-white shadow-md rounded-lg p-6 flex flex-col transform transition duration-300 hover:scale-105 hover:shadow-xl group">
+  <div className="bg-white shadow-md rounded-lg p-4 sm:p-6 flex flex-col transform transition duration-300 hover:scale-105 hover:shadow-xl group">
     <img
       src={card.imageUrl}
       alt={`${card.title} Credit Card`}
       className="w-full mb-4 rounded-lg transition-transform duration-300 group-hover:scale-110"
     />
-    <h3 className="text-lg font-semibold mb-2">{card.title}</h3>
-    <p className="text-sm text-gray-600 mb-4 flex-grow">{card.description}</p>
+    <h3 className="text-md sm:text-lg font-semibold mb-2">{card.title}</h3>
+    <p className="text-sm sm:text-base text-gray-600 mb-4 flex-grow">{card.description}</p>
     <button className="mt-auto bg-purple-600 text-white py-2 px-4 rounded transition-colors duration-300 hover:bg-purple-700 group-hover:bg-purple-800">
       Apply Card
     </button>
@@ -46,15 +46,15 @@ const Card = ({ card }) => (
 
 const PopularCards = () => {
   return (
-    <section className="py-10 bg-gray-50">
+    <section className="py-8 sm:py-10 bg-gray-50">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-10">
-          <h1 className="text-3xl font-bold">Most Popular Credit Cards</h1>
-          <p className="text-gray-600">Do you want to know which of the credit cards are the most popular? Why not take a look and see how they stack up against each other.</p>
+        <div className="text-center mb-6 sm:mb-10">
+          <h1 className="text-2xl sm:text-3xl font-bold">Most Popular Credit Cards</h1>
+          <p className="text-sm sm:text-base text-gray-600 mt-2">Do you want to know which of the credit cards are the most popular? Why not take a look and see how they stack up against each other.</p>
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           {cardData.map((card, index) => (
             <Card key={index} card={card} />
           ))}
