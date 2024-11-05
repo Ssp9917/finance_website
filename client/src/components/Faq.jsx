@@ -29,7 +29,7 @@ const FAQ = () => {
 
   return (
     <div className="bg-gray-50 p-6 flex flex-col items-center">
-      <h1 className="text-2xl font-bold mb-6">Apex Card Credit Card FAQ's</h1>
+      <h1 className="text-2xl font-bold mb-6">Eastern Card Credit Card FAQ's</h1>
       <div className="flex flex-col md:flex-row items-center justify-center gap-8">
         {/* Left: Image */}
         <div className="flex-1 max-w-md">

@@ -12,6 +12,7 @@ import AdminLogin from "../components/admin/AdminLogin";
 import Profile from "../pages/Profile";
 import SingleUserProfile from "../components/admin/SingleUserProfile";
 import AdminDetails from "../components/admin/AdminDetails";
+import DataUsers from "../components/admin/DataUsers";
 
 
 
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
       {
         path:"details",
         element:<AdminDetails/>
+      },
+      {
+        path:"users",
+        element:<DataUsers/>
       }
     ]
   },

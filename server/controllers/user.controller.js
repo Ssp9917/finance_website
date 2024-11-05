@@ -91,3 +91,22 @@ export const logout = (req, res) => {
 		res.status(500).json({ error: "Internal Server Error" });
 	}
 };
+
+
+export const getAllUsers = async (req, res) => {
+	try {
+		// Fetch all users from the database
+		const users = await User.find({}).select("-password"); // Exclude password from response for security
+
+		// Check if users exist
+		if (!users || users.length === 0) {
+			return res.status(404).json({ error: "No users found" });
+		}
+
+		// Send the list of users in response
+		res.status(200).json(users);
+	} catch (error) {
+		console.log("Error in getAllUsers controller", error.message);
+		res.status(500).json({ error: "Internal Server Error" });
+	}
+};

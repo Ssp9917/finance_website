@@ -64,39 +64,89 @@ export const deleteUser = async (req, res) => {
   }
 };
 
+// export const editUser = async (req, res) => {
+//   const { id } = req.params;
+//   const { process } = req.body;
+
+//   try {
+//     // Check if the first step's status is "active"
+//     let walletUpdate = {};
+//     if (process[0] && process[0].status === "active") {
+//       walletUpdate = { wallet: 110000 };
+//     }
+
+//     // Find the user by ID and update the process steps and wallet if needed
+//     const updatedUser = await ApplyCardUser.findByIdAndUpdate(
+//       id,
+//       { 
+//         process,
+//         ...walletUpdate
+//       },
+//       { new: true }
+//     );
+
+//     if (!updatedUser) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+
+//     res
+//       .status(200)
+//       .json({ message: "Process updated successfully", user: updatedUser });
+//   } catch (error) {
+//     console.error("Error updating process:", error);
+//     res.status(500).json({ message: "Internal server error" });
+//   }
+// };
+
 export const editUser = async (req, res) => {
   const { id } = req.params;
-  const { process } = req.body;
+  const { process, amount } = req.body;
 
   try {
-    // Check if the first step's status is "active"
-    let walletUpdate = {};
-    if (process[0] && process[0].status === "active") {
-      walletUpdate = { wallet: 11000 };
-    }
-
-    // Find the user by ID and update the process steps and wallet if needed
-    const updatedUser = await ApplyCardUser.findByIdAndUpdate(
-      id,
-      { 
-        process,
-        ...walletUpdate
-      },
-      { new: true }
-    );
-
-    if (!updatedUser) {
+    // Find the user by ID to get the current wallet balance and process state
+    const user = await ApplyCardUser.findById(id);
+    if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res
-      .status(200)
-      .json({ message: "Process updated successfully", user: updatedUser });
+    // Correctly parse wallet as a number, defaulting to 0 if undefined
+    let updatedWallet = Number(user.wallet) || 0; // or parseFloat(user.wallet) || 0
+    console.log("Current wallet balance:", updatedWallet); // Debugging log
+
+    // Ensure process is an array before accessing its elements
+    if (Array.isArray(process) && process[0] && process[0].status === "active" && updatedWallet === 0) {
+      console.log("Adding 110000 to wallet."); // Debugging log
+      updatedWallet += 110000;
+    }
+
+    // If an additional amount is specified in the request, convert it to a number and add it to the wallet
+    if (amount) {
+      updatedWallet += Number(amount); // Convert amount to number
+      console.log("Added amount to wallet:", amount); // Debugging log
+    }
+
+    // Prepare update object
+    const updateFields = {
+      process,
+      wallet: updatedWallet,
+    };
+
+    // Update the user with the new process steps and wallet balance
+    const updatedUser = await ApplyCardUser.findByIdAndUpdate(
+      id,
+      updateFields,
+      { new: true }
+    );
+
+    res.status(200).json({ message: "Process updated successfully", user: updatedUser });
   } catch (error) {
     console.error("Error updating process:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+
+
 
 
 export const createUser = async (req, res) => {

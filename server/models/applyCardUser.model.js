@@ -81,7 +81,7 @@ const applyCardUserSchema = new mongoose.Schema({
     ],
   },
   wallet:{
-    type:String,
+    type:Number,
     default:0
   },
   createdAt: {

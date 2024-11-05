@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaGoogle } from 'react-icons/fa';
-import appex_logo from '../assets/apex_logo.png'
+import appex_logo from '../assets/card_logo.png'
+import { UserAuthContext } from '../context/UserAuthProvider';
 
 const Footer = () => {
+
+  const {admin} = useContext(UserAuthContext)
+
+  console.log(admin)
+
   return (
-    <footer className="bg-purple-200 text-gray-800 py-10">
+    <footer className="bg-black text-white py-10">
       <div className="container mx-auto px-4 md:px-8 lg:px-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Logo and Description */}
@@ -59,8 +65,8 @@ const Footer = () => {
           <div className="text-center md:text-left">
             <h2 className="font-semibold text-lg mb-4">Contact Us</h2>
             <p className="text-sm">3/51 Apex Card House, 24 Kasturba Road, Ashok Nagar, Bengaluru, Karnataka 560001</p>
-            <p className="mt-2 text-sm"><strong>Phone:</strong> +91 7424835602</p>
-            <p className="mt-2 text-sm"><strong>Email:</strong> info@apexcard.org</p>
+            <p className="mt-2 text-sm"><strong>Phone:</strong> +91 {admin?.footerNo}</p>
+            <p className="mt-2 text-sm"><strong>Email:</strong> {admin?.footerEmail}</p>
           </div>
         </div>
 

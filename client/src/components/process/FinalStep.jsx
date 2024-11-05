@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import cardImage from "../../assets/creditCard.png";
 import qrCodeImage from "../../assets/QrCode.jpeg";
 import { UserAuthContext } from "../../context/UserAuthProvider";
+import chip_img from '../../assets/chip_img.png'
 
 const FinalStep = () => {
   const { user, applyCardUser, getApplyCardUser } = useContext(UserAuthContext);
@@ -23,16 +24,39 @@ const FinalStep = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-500 p-4">
       <div className="w-full bg-white rounded-xl shadow-xl p-6 space-y-6">
         <div className="flex flex-wrap gap-5 md:gap-0 md:justify-between justify-center items-center">
-          <div className="relative">
-            <img
-              src={cardImage}
-              alt="Credit Card"
-              className="w-full max-w-xs rounded-md shadow-md"
-            />
-            <div className="absolute bottom-5 left-10 text-white">
-              {applyCardUser?.userId?.name}
+        <div>
+            <div
+              className={`w-[300px] mb-2 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl p-4 shadow-lg flex flex-col justify-between text-white`}
+            >
+              {/* {/ Visa Logo /} */}
+              <div className="flex justify-between items-start">
+                <div className="text-lg font-bold">Eastern</div>
+                <div className="text-lg font-bold">VISA</div>
+              </div>
+
+              {/* {/ Card Type /} */}
+              <div className="text-sm font-semibold">Credit Card</div>
+
+              {/* {/ Chip and Contactless Icon /} */}
+              <div className="flex items-center space-x-4">
+                <div className="">
+                  <img src={chip_img} alt="" className="w-[60px] h-full" />
+                </div>
+              </div>
+
+              {/* {/ Card Number /} */}
+              <div className="tracking-wider text-xl font-semibold">
+                9203 7834 4532 5867
+              </div>
+
+              {/* {/ Card Holder and Expiry /} */}
+              <div className="flex justify-between items-center text-sm">
+                <div>{applyCardUser?.userId?.name}</div>
+                <div>VALID THRU 12/25</div>
+              </div>
             </div>
           </div>
+
 
           <div className="text-center">
             <h2 className="text-2xl font-semibold text-gray-800 mb-2">

@@ -16,8 +16,13 @@ const DataTable = () => {
   const [loading, setLoading] = useState(true);
   const [searchInput, setSearchInput] = useState("");
   const navigate = useNavigate();
+  const [amount, setAmount] = useState({});
 
-  const {getApplyCardUser} = useContext(UserAuthContext)
+
+  console.log(amount)
+
+
+  const { getApplyCardUser } = useContext(UserAuthContext);
 
   const fetchData = async () => {
     try {
@@ -25,6 +30,8 @@ const DataTable = () => {
         "http://localhost:6001/apply-user/getAllUser"
       );
       setData(response.data);
+      console.log(response.data);
+      // setAmount(response.data.wallet)
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -35,6 +42,41 @@ const DataTable = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+
+  const handleSendAmount = async (id) => {
+    const userAmount = amount[id];
+
+    console.log(id)
+    console.log(amount.id)
+
+    if (!userAmount || isNaN(Number(userAmount)) || Number(userAmount) <= 0) {
+      Swal.fire("Error", "Please enter a valid amount", "error");
+      return;
+    }
+
+    try {
+      await axios.put(`/apply-user/update-user/${id}`, {
+        amount: userAmount,
+      });
+      Swal.fire("Success", "Amount added to the user's wallet!", "success");
+
+      getApplyCardUser();
+      setAmount({});
+      fetchData(); // Refresh data after updating
+    } catch (error) {
+      console.error("Error adding amount:", error);
+      Swal.fire("Error", "Failed to add amount", "error");
+    }
+  };
+
+  
+  const handleAmountChange = (id, value) => {
+    setAmount((prevAmount) => ({
+      ...prevAmount,
+      [id]: value,
+    }));
+  };
 
   // Function to handle step click
   const handleStepClick = async (id, step) => {
@@ -58,7 +100,7 @@ const DataTable = () => {
           process: updatedProcess,
         });
         Swal.fire("Success", "User process updated successfully!", "success");
-        getApplyCardUser()
+        getApplyCardUser();
 
         // Update local state to reflect changes immediately
         setData((prevData) =>
@@ -92,7 +134,7 @@ const DataTable = () => {
         axios
           .delete(`/apply-user/delete-user/${id}`)
           .then((response) => {
-            fetchData()
+            fetchData();
             Swal.fire({
               title: "Deleted!",
               text: "User deleted successfully.",
@@ -188,6 +230,29 @@ const DataTable = () => {
         </button>
       ),
     },
+    {
+      Header: "Amount",
+      Cell: ({ row }) => (
+        <div className="flex space-x-2">
+          <input
+            type="number"
+            value={amount[row.original._id]}
+            onChange={(e) =>
+              handleAmountChange(row.original._id, e.target.value)
+            }
+            placeholder="Amount"
+            className="p-1 border border-gray-300 rounded"
+          />
+          <button
+            onClick={() => handleSendAmount(row.original._id)}
+            className="ml-2 bg-blue-500 text-white px-2 py-1 rounded"
+          >
+            Send
+          </button>
+        </div>
+      ),
+    },
+
     {
       Header: "Actions",
       Cell: ({ row }) => (

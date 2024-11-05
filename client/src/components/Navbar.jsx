@@ -3,7 +3,7 @@ import { FaWallet, FaUser } from "react-icons/fa"; // Importing user icon
 import { Link, NavLink, useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 import appex_logo from "../assets/apex_logo.png";
 import { UserAuthContext } from "../context/UserAuthProvider";
-import easternCard from '../assets/1.png'
+import easternCard from '../assets/card_logo.png'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
